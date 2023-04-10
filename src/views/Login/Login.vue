@@ -5,13 +5,11 @@
     >
     <el-col :lg="8" :md="12">
       <div class="login">
-        <h2 class="fond-bold text-3xl text-gray-800">欢迎回来</h2>
-        <div
-          class="my-5 text-gray-300 flex items-center justify-center space-x-2"
-        >
-          <div class="h-[1px] w-16 bg-gray-200"></div>
-          <div class="font-extralight text-sm text-gray-200">账号密码登录</div>
-          <div class="h-[1px] w-16 bg-gray-200"></div>
+        <h2>欢迎回来</h2>
+        <div class="box">
+          <div class="line"></div>
+          <div class="zh">账号密码登录</div>
+          <div class="line"></div>
         </div>
         <div class="inp">
           <el-form
@@ -27,20 +25,26 @@
                 v-model="ruleForm.username"
                 class="w-50 m-2"
                 placeholder="请输入用户名"
-                :prefix-icon="User"
-              />
+              >
+                <template #prefix>
+                  <el-icon class="el-input__icon"><User /></el-icon>
+                </template>
+              </el-input>
             </el-form-item>
             <el-form-item prop="password">
               <el-input
                 v-model="ruleForm.password"
                 class="w-50 m-2"
                 placeholder="请输入密码"
-                :prefix-icon="Lock"
                 show-password
-              />
+              >
+                <template #prefix>
+                  <el-icon class="el-input__icon"><Lock /></el-icon>
+                </template>
+              </el-input>
             </el-form-item>
             <el-form-item>
-              <el-button round color="#626aef" @click="resetForm(ruleFormRef)"
+              <el-button round color="#626aef" @click="submitForm(ruleFormRef)"
                 >登录</el-button
               >
             </el-form-item>
@@ -51,12 +55,12 @@
   </el-row>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive, ref } from 'vue';
-import { User, Lock } from '@element-plus/icons-vue';
+import type { FormInstance } from 'element-plus';
 
 const formSize = ref('default');
-const ruleFormRef = ref();
+const ruleFormRef = ref<FormInstance>();
 const ruleForm = reactive({
   username: '',
   password: ''
@@ -65,22 +69,27 @@ const rules = reactive({
   username: [
     {
       required: true,
-      message: 'Please input Activity name',
+      message: '用户名不能为空',
       trigger: 'blur'
-    },
-    { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' }
+    }
   ],
   password: [
     {
       required: true,
-      message: 'Please input Activity name',
+      message: '密码不能为空',
       trigger: 'blur'
     }
   ]
 });
-const resetForm = (formEl) => {
+const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
-  formEl.resetFields();
+  formEl.validate((valid, fields) => {
+    if (valid) {
+      console.log(formEl);
+    } else {
+      console.log('error submit!', fields);
+    }
+  });
 };
 </script>
 
@@ -98,20 +107,17 @@ const resetForm = (formEl) => {
   width: 300px;
   height: 300px;
   text-align: center;
-  h3 {
-    @apply text-2xl font-bold;
+  h2 {
+    @apply text-3xl text-gray-800;
   }
 
   .box {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin: 10px 0;
-    .gang {
-      width: 25%;
-      height: 0;
-      border: 1px solid #ecefec;
+    @apply my-5 text-gray-300 flex items-center justify-center space-x-2;
+    .line {
+      @apply h-[1px] w-16 bg-gray-200;
+    }
+    .zh {
+      @apply font-extralight text-sm text-gray-200;
     }
   }
   .inp {
