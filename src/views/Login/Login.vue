@@ -93,7 +93,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
 };
 </script>
 
-<style lang="scss">
+<style lang="windicss">
 .el-row {
   width: 100vw;
   height: 100vh;
