@@ -8,7 +8,16 @@ module.exports = defineConfig({
   transpileDependencies: true,
   publicPath: './',
   devServer: {
-    port: 9999
+    proxy: {
+      // 'api': 'http://shopapi.2yuecloud.com'
+      '/api': {
+        target: 'http://shopapi.2yuecloud.com/admin/',
+        changeOrigin: true,
+        pathRewrite: {
+          '/api': ''
+        }
+      }
+    }
   },
   lintOnSave: process.env.NODE_ENV !== 'production',
   configureWebpack: {

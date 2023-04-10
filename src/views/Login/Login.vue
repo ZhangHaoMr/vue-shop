@@ -58,6 +58,7 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
 import type { FormInstance } from 'element-plus';
+import { login } from '@/http/api';
 
 const formSize = ref('default');
 const ruleFormRef = ref<FormInstance>();
@@ -85,7 +86,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.validate((valid, fields) => {
     if (valid) {
-      console.log(formEl);
+      login(ruleForm).then((res) => {
+        console.log(res);
+      });
     } else {
       console.log('error submit!', fields);
     }
@@ -93,7 +96,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
 };
 </script>
 
-<style lang="windicss">
+<style lang="scss">
 .el-row {
   width: 100vw;
   height: 100vh;

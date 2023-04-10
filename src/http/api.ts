@@ -1,3 +1,8 @@
 import instance from './index';
 
-export const login = (data: object) => instance.post('login', data);
+export const login = (data = { username: '', password: '' }) => {
+  return instance.post('login', {
+    username: data.username,
+    password: data.password
+  });
+};

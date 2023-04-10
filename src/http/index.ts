@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // 创建实例时配置默认值
 const instance = axios.create({
-  baseURL: 'http://ceshi13.dishait.cn/admin/'
+  baseURL: '/api'
 });
 
 // 添加请求拦截器
