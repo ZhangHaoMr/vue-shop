@@ -1,6 +1,8 @@
-// 封装消息提示
 import { ElNotification } from 'element-plus';
 
+import NProgress from 'nprogress';
+
+// 封装消息提示
 export const toast = (
   message: any,
   type?: any,
@@ -12,4 +14,14 @@ export const toast = (
     duration: 2000,
     dangerouslyUseHTMLString: false || dangerouslyUseHTMLString
   });
+};
+
+// 开启全局loading
+export const showLoading = () => {
+  NProgress.start();
+};
+
+// 关闭全局loading
+export const hideLoading = () => {
+  NProgress.done();
 };

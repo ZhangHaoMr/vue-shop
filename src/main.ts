@@ -12,5 +12,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 app.use(router);
 app.use(store);
-// app.use(ElementPlus);
+
+import 'nprogress/nprogress.css';
+
 app.mount('#app');

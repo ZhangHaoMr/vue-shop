@@ -1,18 +1,26 @@
 import { RouteRecordRaw, createRouter, createWebHashHistory } from 'vue-router';
 import { getToken } from '@/composables/auth';
 
+import { showLoading, hideLoading } from '@/composables/util';
+
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect: '/login'
+    redirect: '/main'
   },
   {
     path: '/login',
-    component: () => import('@/views/Login/Login.vue')
+    component: () => import('@/views/Login.vue'),
+    meta: {
+      title: '登录页'
+    }
   },
   {
     path: '/main',
-    component: () => import('@/views/main/main.vue')
+    component: () => import('@/views/main.vue'),
+    meta: {
+      title: '后台首页'
+    }
   }
 ];
 
@@ -22,6 +30,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  showLoading();
   if (getToken()) {
     if (to.path === '/login' || to.path === '/') {
       next('/main');
@@ -35,6 +44,10 @@ router.beforeEach((to, from, next) => {
       next('/login');
     }
   }
+});
+
+router.afterEach(() => {
+  hideLoading();
 });
 
 export default router;
