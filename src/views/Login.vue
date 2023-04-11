@@ -67,8 +67,10 @@ import { login, gitInfo } from '@/http/api';
 import { toast } from '@/composables/util';
 import { useRouter } from 'vue-router';
 import { setToken } from '@/composables/auth';
+import { useStore } from 'vuex';
 
 const { push } = useRouter();
+const { commit } = useStore();
 
 const formSize = ref('default');
 const ruleFormRef = ref<FormInstance>();
@@ -115,6 +117,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
         setToken(response.token);
         gitInfo().then((res) => {
           console.log(res);
+          commit('setUserinfo', res);
         });
         push('/');
       })
