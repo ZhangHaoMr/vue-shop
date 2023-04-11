@@ -6,7 +6,16 @@ import { showLoading, hideLoading } from '@/composables/util';
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect: '/main'
+    component: () => import('@/views/home.vue'),
+    children: [
+      {
+        path: '/',
+        component: () => import('@/views/main.vue'),
+        meta: {
+          title: '后台首页'
+        }
+      }
+    ]
   },
   {
     path: '/login',
@@ -16,10 +25,11 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
-    path: '/main',
-    component: () => import('@/views/main.vue'),
+    path: '/:pathMatch(.*)*',
+    name: '404',
+    component: () => import('@/views/404.vue'),
     meta: {
-      title: '后台首页'
+      title: '404'
     }
   }
 ];
@@ -32,13 +42,13 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   showLoading();
   if (getToken()) {
-    if (to.path === '/login' || to.path === '/') {
+    if (to.path === '/login') {
       next('/main');
     } else {
       next();
     }
   } else {
-    if (to.path === '/login' || to.path === '/') {
+    if (to.path === '/login') {
       next();
     } else {
       next('/login');

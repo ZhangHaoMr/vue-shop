@@ -116,7 +116,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
         gitInfo().then((res) => {
           console.log(res);
         });
-        push('/main');
+        push('/');
       })
       .finally(() => {
         loading.value = false;
