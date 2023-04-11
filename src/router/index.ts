@@ -44,6 +44,8 @@ router.beforeEach((to, from, next) => {
       next('/login');
     }
   }
+  const title = (to.meta.title ? to.meta.title : '') + '-' + '九月云后台';
+  document.title = title;
 });
 
 router.afterEach(() => {

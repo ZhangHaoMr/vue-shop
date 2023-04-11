@@ -1,4 +1,5 @@
 <template>
+  <!-- 登录 -->
   <el-row>
     <el-col :lg="16" :md="12" class="bg-indigo-500" style="color: #fff"
       >欢迎光临</el-col
