@@ -63,7 +63,7 @@
 import { reactive, ref } from 'vue';
 import type { FormInstance } from 'element-plus';
 import { login, gitInfo } from '@/http/api';
-import { ElNotification } from 'element-plus';
+import { toast } from '@/composables/util';
 import { useRouter } from 'vue-router';
 import { setToken } from '@/composables/auth';
 
@@ -99,15 +99,18 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.validate((valid, fields) => {
     if (!valid) return false;
+
     loading.value = true;
+    // 调用登录接口
     login(ruleForm)
       .then((response) => {
         console.log(response);
-        ElNotification({
-          title: '登录成功',
-          type: 'success',
-          duration: 2000
-        });
+        // ElNotification({
+        //   title: '登录成功',
+        //   type: 'success',
+        //   duration: 2000
+        // });
+        toast('登录成功');
         setToken(response.token);
         gitInfo().then((res) => {
           console.log(res);
