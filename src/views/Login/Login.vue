@@ -44,7 +44,11 @@
               </el-input>
             </el-form-item>
             <el-form-item>
-              <el-button round color="#626aef" @click="submitForm(ruleFormRef)"
+              <el-button
+                round
+                color="#626aef"
+                @click="submitForm(ruleFormRef)"
+                :loading="loading"
                 >登录</el-button
               >
             </el-form-item>
@@ -61,10 +65,9 @@ import type { FormInstance } from 'element-plus';
 import { login, gitInfo } from '@/http/api';
 import { ElNotification } from 'element-plus';
 import { useRouter } from 'vue-router';
-import { useCookies } from '@vueuse/integrations/useCookies';
+import { setToken } from '@/composables/auth';
 
 const { push } = useRouter();
-const cookie = useCookies();
 
 const formSize = ref('default');
 const ruleFormRef = ref<FormInstance>();
@@ -89,24 +92,31 @@ const rules = reactive({
   ]
 });
 
+const loading = ref(false);
+
 // 登录
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.validate((valid, fields) => {
     if (!valid) return false;
-    login(ruleForm).then((response) => {
-      console.log(response);
-      ElNotification({
-        title: '登录成功',
-        type: 'success',
-        duration: 2000
+    loading.value = true;
+    login(ruleForm)
+      .then((response) => {
+        console.log(response);
+        ElNotification({
+          title: '登录成功',
+          type: 'success',
+          duration: 2000
+        });
+        setToken(response.token);
+        gitInfo().then((res) => {
+          console.log(res);
+        });
+        push('/main');
+      })
+      .finally(() => {
+        loading.value = false;
       });
-      cookie.set('admin-token', response.token);
-      gitInfo().then((res) => {
-        console.log(res);
-      });
-      push('/main');
-    });
   });
 };
 </script>

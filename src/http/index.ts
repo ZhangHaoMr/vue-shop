@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useCookies } from '@vueuse/integrations/useCookies';
+import { getToken } from '@/composables/auth';
 import { ElNotification } from 'element-plus';
 
 // 创建实例时配置默认值
@@ -10,8 +10,7 @@ const instance = axios.create({
 // 添加请求拦截器
 instance.interceptors.request.use(
   (config) => {
-    const cookie = useCookies();
-    const token = cookie.get('admin-token');
+    const token = getToken();
     if (token) {
       config.headers.token = token;
     }
