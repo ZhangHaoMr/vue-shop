@@ -58,7 +58,7 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
 import type { FormInstance } from 'element-plus';
-import { login } from '@/http/api';
+import { login, gitInfo } from '@/http/api';
 import { ElNotification } from 'element-plus';
 import { useRouter } from 'vue-router';
 import { useCookies } from '@vueuse/integrations/useCookies';
@@ -94,24 +94,19 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.validate((valid, fields) => {
     if (!valid) return false;
-    login(ruleForm)
-      .then((response) => {
-        console.log(response.data.data);
-        ElNotification({
-          title: '登录成功',
-          type: 'success',
-          duration: 3000
-        });
-        cookie.set('admin-token', response.data.data.token);
-        push('/main');
-      })
-      .catch((error) => {
-        ElNotification({
-          title: error.response.data.msg,
-          type: 'error',
-          duration: 3000
-        });
+    login(ruleForm).then((response) => {
+      console.log(response);
+      ElNotification({
+        title: '登录成功',
+        type: 'success',
+        duration: 2000
       });
+      cookie.set('admin-token', response.token);
+      gitInfo().then((res) => {
+        console.log(res);
+      });
+      push('/main');
+    });
   });
 };
 </script>
