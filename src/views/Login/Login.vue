@@ -59,6 +59,10 @@
 import { reactive, ref } from 'vue';
 import type { FormInstance } from 'element-plus';
 import { login } from '@/http/api';
+import { ElNotification } from 'element-plus';
+import { useRouter } from 'vue-router';
+
+const { push } = useRouter();
 
 const formSize = ref('default');
 const ruleFormRef = ref<FormInstance>();
@@ -85,13 +89,24 @@ const rules = reactive({
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.validate((valid, fields) => {
-    if (valid) {
-      login(ruleForm).then((res) => {
-        console.log(res);
+    if (!valid) return false;
+    login(ruleForm)
+      .then((response) => {
+        console.log(response.data.data);
+        ElNotification({
+          title: '登录成功',
+          type: 'success',
+          duration: 3000
+        });
+        push('/main');
+      })
+      .catch((error) => {
+        ElNotification({
+          title: error.response.data.msg,
+          type: 'error',
+          duration: 3000
+        });
       });
-    } else {
-      console.log('error submit!', fields);
-    }
   });
 };
 </script>
