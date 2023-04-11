@@ -61,8 +61,10 @@ import type { FormInstance } from 'element-plus';
 import { login } from '@/http/api';
 import { ElNotification } from 'element-plus';
 import { useRouter } from 'vue-router';
+import { useCookies } from '@vueuse/integrations/useCookies';
 
 const { push } = useRouter();
+const cookie = useCookies();
 
 const formSize = ref('default');
 const ruleFormRef = ref<FormInstance>();
@@ -86,6 +88,8 @@ const rules = reactive({
     }
   ]
 });
+
+// 登录
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.validate((valid, fields) => {
@@ -98,6 +102,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
           type: 'success',
           duration: 3000
         });
+        cookie.set('admin-token', response.data.data.token);
         push('/main');
       })
       .catch((error) => {
