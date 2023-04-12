@@ -12,7 +12,7 @@ export const toast = (
     message,
     type: type || 'success',
     duration: 2000,
-    dangerouslyUseHTMLString: false || dangerouslyUseHTMLString
+    dangerouslyUseHTMLString: dangerouslyUseHTMLString || false
   });
 };
 

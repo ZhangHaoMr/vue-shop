@@ -43,7 +43,7 @@ router.beforeEach((to, from, next) => {
   showLoading();
   if (getToken()) {
     if (to.path === '/login') {
-      next('/main');
+      next('/');
     } else {
       next();
     }

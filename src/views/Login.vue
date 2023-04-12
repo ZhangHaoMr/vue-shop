@@ -1,9 +1,9 @@
 <template>
   <!-- 登录 -->
   <el-row>
-    <el-col :lg="16" :md="12" class="bg-indigo-500" style="color: #fff"
-      >欢迎光临</el-col
-    >
+    <el-col :lg="16" :md="12" class="bg-indigo-500" style="color: #fff">
+      欢迎光临
+    </el-col>
     <el-col :lg="8" :md="12">
       <div class="login">
         <h2>欢迎回来</h2>
@@ -100,7 +100,7 @@ const loading = ref(false);
 // 登录
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
-  formEl.validate((valid, fields) => {
+  formEl.validate((valid) => {
     if (!valid) return false;
 
     loading.value = true;
@@ -108,11 +108,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
     login(ruleForm)
       .then((response) => {
         console.log(response);
-        // ElNotification({
-        //   title: '登录成功',
-        //   type: 'success',
-        //   duration: 2000
-        // });
         toast('登录成功');
         setToken(response.token);
         gitInfo().then((res) => {

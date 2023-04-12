@@ -21,4 +21,12 @@ import FMenu from '@/components/FMenu.vue';
 import FTagList from '@/components/FTagList.vue';
 </script>
 
-<style></style>
+<style lang="scss">
+.el-container {
+  height: 100vh;
+  .el-aside,
+  .el-main {
+    height: calc(100vh - 60px);
+  }
+}
+</style>

@@ -36,7 +36,7 @@
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item>修改密码</el-dropdown-item>
+            <el-dropdown-item @click="editPaw">修改密码</el-dropdown-item>
             <el-dropdown-item @click="gologout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </template>
@@ -52,7 +52,7 @@ import { toast } from '@/composables/util';
 import { ElMessageBox } from 'element-plus';
 import { useFullscreen } from '@vueuse/core';
 
-const { isFullscreen, toggle } = useFullscreen();
+const { toggle } = useFullscreen();
 
 const { push } = useRouter();
 
@@ -80,10 +80,14 @@ const gologout = () => {
 const shua = () => {
   location.reload();
 };
+
+// 修改密码
+// const editPaw = () => {};
 </script>
+
 <style lang="scss">
 .fHeader {
-  height: 64px;
+  height: 60px;
   @apply flex items-center text-light-50 bg-indigo-700 fixed left-0 top-0 right-0;
 }
 .logo {
@@ -92,7 +96,7 @@ const shua = () => {
 }
 .icon-btn {
   width: 42px;
-  height: 64px;
+  height: 60px;
   cursor: pointer;
   @apply flex items-center justify-center;
 }
@@ -102,7 +106,7 @@ const shua = () => {
 .dropdown,
 .el-dropdown-link {
   @apply w-30 flex justify-center items-center text-light-50;
-  height: 64px;
+  height: 60px;
   cursor: pointer;
   overflow: hidden;
   border: 0;
