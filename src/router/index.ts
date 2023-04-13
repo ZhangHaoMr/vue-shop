@@ -1,6 +1,6 @@
 import { RouteRecordRaw, createRouter, createWebHashHistory } from 'vue-router';
 import { getToken } from '@/composables/auth';
-import store from '@/store';
+// import store from '@/store';
 
 import { showLoading, hideLoading } from '@/composables/util';
 

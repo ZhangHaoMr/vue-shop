@@ -5,6 +5,7 @@ import NProgress from 'nprogress';
 // 封装消息提示
 export const toast = (
   message: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   type?: any,
   dangerouslyUseHTMLString?: boolean
 ) => {
