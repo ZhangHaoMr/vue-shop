@@ -4,7 +4,7 @@
       <FHeader />
     </el-header>
     <el-container>
-      <el-aside width="200px">
+      <el-aside :width="$store.state.widthCe" style="overflow: hidden">
         <FMenu />
       </el-aside>
       <el-main>

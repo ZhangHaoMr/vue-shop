@@ -7,7 +7,10 @@
     </span>
     <!-- 菜单展开收起 -->
     <el-tooltip effect="dark" content="菜单" placement="bottom">
-      <el-icon class="icon-btn"><Fold /></el-icon>
+      <el-icon class="icon-btn" @click="$store.commit('handWidth')">
+        <Fold v-if="$store.state.widthCe == '250px'" />
+        <Expand v-else />
+      </el-icon>
     </el-tooltip>
 
     <!-- 刷新图标 -->
@@ -68,6 +71,7 @@ const gologout = () => {
         console.log(res);
         toast(res);
         removeToken();
+        localStorage.removeItem('vuex');
         push('/login');
       });
     })

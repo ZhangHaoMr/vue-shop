@@ -4,7 +4,7 @@ import NProgress from 'nprogress';
 
 // 封装消息提示
 export const toast = (
-  message: any,
+  message: string,
   type?: any,
   dangerouslyUseHTMLString?: boolean
 ) => {
