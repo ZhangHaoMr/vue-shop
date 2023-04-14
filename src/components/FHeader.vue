@@ -86,7 +86,9 @@ const shua = () => {
 };
 
 // 修改密码
-// const editPaw = () => {};
+const editPaw = () => {
+  console.log(111);
+};
 </script>
 
 <style lang="scss">

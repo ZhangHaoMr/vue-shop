@@ -10,6 +10,7 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     name: 'admin',
     component: () => import('@/views/home.vue'),
+    redirect: 'index',
     meta: {
       title: '后台首页'
     },
@@ -89,7 +90,9 @@ router.beforeEach((to, from, next) => {
       next('/login');
     }
   }
-  const title = (to.meta.title ? to.meta.title : '') + '-' + '九月云后台';
+  const title = to.meta.title
+    ? to.meta.title + '-' + '九月云后台'
+    : '九月云后台';
   document.title = title;
 });
 

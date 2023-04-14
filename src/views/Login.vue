@@ -50,8 +50,9 @@
                 color="#626aef"
                 @click="submitForm(ruleFormRef)"
                 :loading="loading"
-                >登录</el-button
               >
+                登录
+              </el-button>
             </el-form-item>
           </el-form>
         </div>

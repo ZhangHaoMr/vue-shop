@@ -9,7 +9,9 @@
       </el-aside>
       <el-main>
         <FTagList />
-        <router-view></router-view>
+        <div class="main">
+          <router-view></router-view>
+        </div>
       </el-main>
     </el-container>
   </el-container>
@@ -27,6 +29,14 @@ import FTagList from '@/components/FTagList.vue';
   .el-aside,
   .el-main {
     height: calc(100vh - 60px);
+    background-color: #f3f4f6;
+    overflow: hidden;
+    .main {
+      height: calc(100% - 45px);
+      margin: 0 auto !important;
+      // overflow: scroll;
+      margin-top: 45px !important;
+    }
   }
 }
 </style>
