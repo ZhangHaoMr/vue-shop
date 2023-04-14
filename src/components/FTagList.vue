@@ -53,7 +53,7 @@ const tabList = ref([
   }
 ]);
 
-onBeforeRouteUpdate((to, from) => {
+onBeforeRouteUpdate((to) => {
   editableTabsValue.value = to.path;
   addTab({
     title: to.meta.title as string,

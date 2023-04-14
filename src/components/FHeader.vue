@@ -67,7 +67,8 @@ const gologout = () => {
     type: 'warning'
   })
     .then(() => {
-      logout().then((res) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      logout().then((res: any) => {
         console.log(res);
         toast(res);
         removeToken();
