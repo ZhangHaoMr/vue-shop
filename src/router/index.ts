@@ -65,59 +65,10 @@ const routes: RouteRecordRaw[] = [
         }
       },
       {
-        path: 'order_order_list',
-        component: () => import('@/pages/order_order_list.vue'),
-        meta: {
-          title: '订单管理'
-        }
-      },
-      {
         path: 'shop_comment_list',
         component: () => import('@/pages/shop_comment_list.vue'),
         meta: {
           title: '评论管理'
-        }
-      },
-      {
-        path: 'set_manager',
-        component: () => import('@/pages/set_manager.vue'),
-        meta: {
-          title: '管理员管理'
-        }
-      },
-      {
-        path: 'set_base',
-        component: () => import('@/pages/set_base.vue'),
-        meta: {
-          title: '基础管理'
-        }
-      },
-      {
-        path: 'set_payment',
-        component: () => import('@/pages/set_payment.vue'),
-        meta: {
-          title: '交易管理'
-        }
-      },
-      {
-        path: 'set_express',
-        component: () => import('@/pages/set_express.vue'),
-        meta: {
-          title: '物流管理'
-        }
-      },
-      {
-        path: 'image',
-        component: () => import('@/pages/image.vue'),
-        meta: {
-          title: '图库管理'
-        }
-      },
-      {
-        path: 'set_notice',
-        component: () => import('@/pages/set_notice.vue'),
-        meta: {
-          title: '公告管理'
         }
       }
     ]

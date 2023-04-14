@@ -18,9 +18,9 @@
 </template>
 
 <script lang="ts" setup>
-import FHeader from '@/components/FHeader.vue';
-import FMenu from '@/components/FMenu.vue';
-import FTagList from '@/components/FTagList.vue';
+import FHeader from '@/components/home/FHeader.vue';
+import FMenu from '@/components/home/FMenu.vue';
+import FTagList from '@/components/home/FTagList.vue';
 </script>
 
 <style lang="scss">
@@ -32,10 +32,9 @@ import FTagList from '@/components/FTagList.vue';
     background-color: #f3f4f6;
     overflow: hidden;
     .main {
-      height: calc(100% - 45px);
+      height: 100%;
       margin: 0 auto !important;
       // overflow: scroll;
-      margin-top: 45px !important;
     }
   }
 }

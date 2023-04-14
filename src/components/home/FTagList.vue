@@ -67,7 +67,7 @@ const handleCommand = (command: string | number | object) => {
 
 // 添加tab
 const addTab = (tab: { title: string; path: string }) => {
-  console.log(tab);
+  // console.log(tab);
   let noTab = tabList.value.findIndex((res) => res.path === tab.path) == -1;
   if (noTab) {
     tabList.value.push(tab);
@@ -76,12 +76,14 @@ const addTab = (tab: { title: string; path: string }) => {
 
 // 删除tab
 const removeTab = (targetName: string) => {
-  console.log(targetName);
+  // console.log(targetName);
+  tabList.value = tabList.value.filter((res) => res.path !== targetName);
 };
 
 // 切换页面
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const changeTab = (t: any) => {
-  console.log(t);
+  // console.log(t);
   router.push(t.props.name);
 };
 </script>

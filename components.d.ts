@@ -14,6 +14,7 @@ declare module '@vue/runtime-core' {
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCol: typeof import('element-plus/es')['ElCol']
     ElContainer: typeof import('element-plus/es')['ElContainer']
+    ElDivider: typeof import('element-plus/es')['ElDivider']
     ElDropdown: typeof import('element-plus/es')['ElDropdown']
     ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
     ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu']
@@ -32,10 +33,12 @@ declare module '@vue/runtime-core' {
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
-    FHeader: typeof import('./src/components/FHeader.vue')['default']
-    FMenu: typeof import('./src/components/FMenu.vue')['default']
-    FTagList: typeof import('./src/components/FTagList.vue')['default']
+    Fen: typeof import('./src/components/main/fen.vue')['default']
+    FHeader: typeof import('./src/components/home/FHeader.vue')['default']
+    FMenu: typeof import('./src/components/home/FMenu.vue')['default']
+    FTagList: typeof import('./src/components/home/FTagList.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Top: typeof import('./src/components/main/top.vue')['default']
   }
 }

@@ -14,3 +14,11 @@ export const gitInfo = () => instance.post('getinfo');
 export const updatepassword = (
   data = { oldpassword: '', password: '', repassword: '' }
 ) => instance.post('updatepassword', data);
+
+// 后台首页统计1 statistics1
+export const getStatistics1 = () => instance.get('statistics1');
+
+// statistics2
+export const getStatistics2 = () => instance.get('statistics2');
+
+export const getStatistics3 = () => instance.get('statistics3');
