@@ -26,16 +26,9 @@ import FTagList from '@/components/home/FTagList.vue';
 <style lang="scss">
 .el-container {
   height: 100vh;
-  .el-aside,
   .el-main {
     height: calc(100vh - 60px);
     background-color: #f3f4f6;
-    overflow: hidden;
-    .main {
-      height: 100%;
-      margin: 0 auto !important;
-      // overflow: scroll;
-    }
   }
 }
 </style>

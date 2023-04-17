@@ -1,13 +1,12 @@
 import { reactive, ref } from 'vue';
 import type { FormInstance } from 'element-plus';
-import { login, gitInfo } from '@/http/api';
 import { toast } from '@/composables/util';
 import { useRouter } from 'vue-router';
-import { setToken } from '@/composables/auth';
 import { useStore } from 'vuex';
+
 export function userLogin() {
+  const store = useStore();
   const { push } = useRouter();
-  const { commit } = useStore();
 
   const formSize = ref('default');
   const ruleFormRef = ref<FormInstance>();
@@ -41,20 +40,18 @@ export function userLogin() {
       if (!valid) return false;
 
       loading.value = true;
-      // 调用登录接口
-      login(ruleForm)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      store
+        .dispatch('login', ruleForm)
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         .then((response: any) => {
-          console.log(response);
+          // 提示登录成功
           toast('登录成功');
-          setToken(response.token);
-          gitInfo().then((res) => {
-            console.log(res);
-            commit('setUserinfo', res);
-          });
+          store.dispatch('getInfo');
+          // 跳转到后台首页
           push('/');
         })
         .finally(() => {
+          // 关闭登录按钮loading加载
           loading.value = false;
         });
     });

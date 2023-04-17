@@ -13,7 +13,7 @@
       @tab-click="changeTab"
     >
       <el-tab-pane
-        :closable="item.path != '/'"
+        :closable="item.path !== '/'"
         v-for="item in tabList"
         :key="item.path"
         :label="item.title"

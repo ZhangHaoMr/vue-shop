@@ -1,77 +1,16 @@
 import { RouteRecordRaw, createRouter, createWebHashHistory } from 'vue-router';
 import { getToken } from '@/composables/auth';
-// import store from '@/store';
+import { asyncRoutes } from './asyncRoutes';
 
 import { showLoading, hideLoading } from '@/composables/util';
+import store from '@/store';
 
 // 静态路由表
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'admin',
-    component: () => import('@/views/home.vue'),
-    redirect: 'index',
-    meta: {
-      title: '后台首页'
-    },
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/pages/main.vue'),
-        meta: {
-          title: '后台首页'
-        }
-      },
-      {
-        path: 'shop_goods_list',
-        component: () => import('@/pages/shop_goods_list.vue'),
-        meta: {
-          title: '商品管理'
-        }
-      },
-      {
-        path: 'shop_category_list',
-        component: () => import('@/pages/shop_category_list.vue'),
-        meta: {
-          title: '分类管理'
-        }
-      },
-      {
-        path: 'shop_sku_list',
-        component: () => import('@/pages/shop_sku_list.vue'),
-        meta: {
-          title: '规则管理'
-        }
-      },
-      {
-        path: 'shop_coupon_list',
-        component: () => import('@/pages/shop_coupon_list.vue'),
-        meta: {
-          title: '优惠券管理'
-        }
-      },
-      {
-        path: 'user_user-list_list',
-        component: () => import('@/pages/shop_user-list_list.vue'),
-        meta: {
-          title: '用户管理'
-        }
-      },
-      {
-        path: 'user_user-level_list',
-        component: () => import('@/pages/shop_user-level_list.vue'),
-        meta: {
-          title: '会员等级'
-        }
-      },
-      {
-        path: 'shop_comment_list',
-        component: () => import('@/pages/shop_comment_list.vue'),
-        meta: {
-          title: '评论管理'
-        }
-      }
-    ]
+    component: () => import('@/views/home.vue')
   },
   {
     path: '/login',
@@ -91,31 +30,12 @@ const routes: RouteRecordRaw[] = [
   }
 ];
 
-// 动态路由表
-// const asyncRoutes: RouteRecordRaw[] = [];
-
-// 动态添加
-// function addRoutes(menus: any) {
-//   const findAddRoutes = (arr: any) => {
-//     arr.forEach((m: any) => {
-//       const item: any = asyncRoutes.find((o) => o.path === m.path);
-//       if (item && !router.hasRoute(item)) {
-//         router.addRoute('admin', item);
-//       }
-
-//       if (m.child && m.child.length > 0) {
-//         findAddRoutes(m.child);
-//       }
-//     });
-//   };
-//   findAddRoutes(menus);
-// }
-
 const router = createRouter({
   routes,
   history: createWebHashHistory()
 });
 
+// 路由鉴权
 router.beforeEach((to, from, next) => {
   showLoading();
   if (getToken()) {
@@ -138,8 +58,37 @@ router.beforeEach((to, from, next) => {
   document.title = title;
 });
 
+// 后置守卫
 router.afterEach(() => {
+  // 关闭loading
   hideLoading();
 });
+
+// 动态添加
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function addRoutes(menus: any) {
+  console.log(menus);
+  // 定义一个变量，用来保存是否添加新的路由
+  let hasNewRoutes = false;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const findRoute = (arr: any) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    arr.forEach((item: any) => {
+      // console.log(item);
+      const a = asyncRoutes.find((it) => it.path === item.desc);
+      if (a && !router.hasRoute(a.path)) {
+        router.addRoute('admin', a);
+        hasNewRoutes = true;
+      }
+      if (item.child && item.child.length > 0) {
+        findRoute(item.child);
+      }
+    });
+  };
+  findRoute(menus);
+  return hasNewRoutes;
+}
+addRoutes(store.state.menus);
 
 export default router;

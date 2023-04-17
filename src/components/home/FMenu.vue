@@ -7,7 +7,7 @@
     @select="tiao"
   >
     <el-sub-menu
-      v-for="item in $store.state.user.menus"
+      v-for="item in $store.state.menus"
       :key="item.id"
       :index="item.desc"
     >

@@ -7,7 +7,7 @@
     </span>
     <!-- 菜单展开收起 -->
     <el-tooltip effect="dark" content="菜单" placement="bottom">
-      <el-icon class="icon-btn" @click="$store.commit('handWidth')">
+      <el-icon class="icon-btn" @click="$store.commit('handleAsideWidth')">
         <Fold v-if="$store.state.widthCe == '250px'" />
         <Expand v-else />
       </el-icon>
@@ -20,8 +20,15 @@
 
     <div class="ml-auto flex items-center">
       <!-- 全屏图标 -->
-      <el-tooltip effect="dark" content="全屏" placement="bottom">
-        <el-icon class="icon-btn" @click="toggle"><FullScreen /></el-icon>
+      <el-tooltip
+        effect="dark"
+        :content="isFullscreen == false ? '全屏' : '取消全屏'"
+        placement="bottom"
+      >
+        <el-icon class="icon-btn" @click="toggle">
+          <FullScreen v-if="!isFullscreen" />
+          <Help v-else />
+        </el-icon>
       </el-tooltip>
       <!-- 下拉菜单 -->
       <el-dropdown class="dropdown">
@@ -54,8 +61,10 @@ import { removeToken } from '@/composables/auth';
 import { toast } from '@/composables/util';
 import { ElMessageBox } from 'element-plus';
 import { useFullscreen } from '@vueuse/core';
+import { useCookies } from '@vueuse/integrations/useCookies';
 
-const { toggle } = useFullscreen();
+const { toggle, isFullscreen } = useFullscreen();
+const { remove } = useCookies();
 
 const { push } = useRouter();
 
@@ -72,7 +81,8 @@ const gologout = () => {
         console.log(res);
         toast(res);
         removeToken();
-        localStorage.removeItem('vuex');
+        remove('user');
+        remove('menus');
         push('/login');
       });
     })

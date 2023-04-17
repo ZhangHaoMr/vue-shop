@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 // eslint-disable-next-line no-undef
-const props = defineProps({
+defineProps({
   item: {
     type: Object
   }

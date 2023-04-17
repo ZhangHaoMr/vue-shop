@@ -22,3 +22,6 @@ export const getStatistics1 = () => instance.get('statistics1');
 export const getStatistics2 = () => instance.get('statistics2');
 
 export const getStatistics3 = () => instance.get('statistics3');
+
+// GET  商品管理 goods/1?tab=all
+export const getGoods = (data: number) => instance.get(`goods/${data}?tab=all`);

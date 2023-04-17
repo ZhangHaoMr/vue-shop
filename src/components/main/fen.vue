@@ -27,4 +27,7 @@ defineProps({
   text-align: center;
   background-color: #fff;
 }
+.fen:hover {
+  @apply shadow-md;
+}
 </style>
