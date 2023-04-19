@@ -35,27 +35,37 @@ const router = createRouter({
   history: createWebHashHistory()
 });
 
+let hasGetInfo = false;
 // 路由鉴权
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   showLoading();
-  if (getToken()) {
-    if (to.path === '/login') {
-      next('/');
-    } else {
-      next();
-    }
-    // addRoutes(store.state.menus);
-  } else {
-    if (to.path === '/login') {
-      next();
-    } else {
-      next('/login');
-    }
+  const token = getToken();
+  // 没有登录，强制跳转到登录页
+  if (!token && to.path != '/login') {
+    return next({
+      path: '/login'
+    });
+  }
+
+  // 防止用户重复登录
+  if (token && to.path === '/login') {
+    return next({
+      path: from.path ? from.path : '/'
+    });
+  }
+
+  let hasNewRoutes = false;
+  if (token && !hasGetInfo) {
+    const { menus } = await store.dispatch('getInfo');
+    hasGetInfo = true;
+    hasNewRoutes = addRoutes(menus);
   }
   const title = to.meta.title
     ? to.meta.title + '-' + '九月云后台'
     : '九月云后台';
   document.title = title;
+
+  hasNewRoutes ? next(to.fullPath) : next();
 });
 
 // 后置守卫
@@ -67,7 +77,7 @@ router.afterEach(() => {
 // 动态添加
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function addRoutes(menus: any) {
-  console.log(menus);
+  // console.log(menus);
   // 定义一个变量，用来保存是否添加新的路由
   let hasNewRoutes = false;
 
@@ -76,7 +86,9 @@ function addRoutes(menus: any) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     arr.forEach((item: any) => {
       // console.log(item);
-      const a = asyncRoutes.find((it) => it.path === item.desc);
+      const a = asyncRoutes.find((it) => it.path === item.frontpath);
+      console.log(a);
+
       if (a && !router.hasRoute(a.path)) {
         router.addRoute('admin', a);
         hasNewRoutes = true;

@@ -19,7 +19,7 @@
         <span>{{ item.name }}</span>
       </template>
       <el-menu-item-group v-for="ite in item.child" :key="ite.id">
-        <el-menu-item :index="ite.desc">
+        <el-menu-item :index="ite.frontpath">
           <el-icon>
             <component :is="ite.icon"></component>
           </el-icon>
