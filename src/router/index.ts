@@ -87,7 +87,7 @@ function addRoutes(menus: any) {
     arr.forEach((item: any) => {
       // console.log(item);
       const a = asyncRoutes.find((it) => it.path === item.frontpath);
-      console.log(a);
+      // console.log(a);
 
       if (a && !router.hasRoute(a.path)) {
         router.addRoute('admin', a);

@@ -2,7 +2,7 @@
   <div class="main_top_box">
     <div class="main_top__box_top">
       <div>{{ item.title }}</div>
-      <div>{{ item.unit }}</div>
+      <el-tag class="ml-2" :type="item.unitColor">{{ item.unit }}</el-tag>
     </div>
     <div class="main_top_box_bottom">
       <div class="main_top_box_bottom_content">{{ item.value }}</div>

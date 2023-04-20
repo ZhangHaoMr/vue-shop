@@ -11,7 +11,7 @@ module.exports = defineConfig({
     proxy: {
       // 'api': 'http://shopapi.2yuecloud.com'
       '/api': {
-        target: 'http://shopapi.2yuecloud.com/admin/',
+        target: 'http://ceshi13.dishait.cn/admin',
         changeOrigin: true,
         pathRewrite: {
           '/api': ''

@@ -1,7 +1,7 @@
 <!-- 商品管理 -->
 <template>
-  <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
-    <el-tab-pane label="全部" name="全部"></el-tab-pane>
+  <el-tabs v-model="activeName" class="demo-tabs" @tab-change="handleClick">
+    <el-tab-pane label="全部" name="all"></el-tab-pane>
     <el-tab-pane label="审核中" name="审核中"></el-tab-pane>
     <el-tab-pane label="出售中" name="出售中"></el-tab-pane>
     <el-tab-pane label="已下架" name="已下架"></el-tab-pane>
@@ -69,12 +69,22 @@
 import { ref } from 'vue';
 import type { TabsPaneContext } from 'element-plus';
 import { reactive } from 'vue';
+import { getGoods } from '@/http/api';
 
-const activeName = ref('全部');
+let activeName = ref('all');
+let pages = ref(1);
 
 const handleClick = (tab: TabsPaneContext) => {
   console.log(tab);
+  activeName.value = tab;
+  console.log(activeName.value);
 };
+
+const tableData = reactive([]);
+
+getGoods({ tab: activeName.value, pages: pages.value }).then((res) => {
+  console.log(res);
+});
 
 const formInline = reactive({
   user: '',
@@ -87,8 +97,6 @@ const onSubmit = () => {
 
 // 展开收起
 let zhan = ref(true);
-
-const tableData = reactive([]);
 
 const handleEdit = (index: number, row) => {
   console.log(index, row);
