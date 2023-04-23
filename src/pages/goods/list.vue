@@ -31,10 +31,14 @@
         </el-button>
       </el-form-item>
     </el-form>
-    <el-button type="primary">新增</el-button>
-    <el-button type="danger">批量删除</el-button>
-    <el-button>上架</el-button>
-    <el-button>下架</el-button>
+    <el-button type="primary" v-permission="['getStatistics1,GET']"
+      >新增</el-button
+    >
+    <el-button type="danger" v-permission="['getStatistics3,GET']"
+      >批量删除</el-button
+    >
+    <el-button v-permission="['getStatistics2,GET']">上架</el-button>
+    <el-button v-permission="['remove']">下架</el-button>
     <el-table
       ref="multipleTableRef"
       :data="tableData"
