@@ -76,7 +76,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getNotice, addNotice, deleteNotice } from '@/http/api';
+import { getNotice, addNotice, deleteNotice, updateNotice } from '@/http/api';
 import { ref, reactive } from 'vue';
 import Drawer from '@/components/Drawer.vue';
 

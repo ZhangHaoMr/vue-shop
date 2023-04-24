@@ -3,10 +3,12 @@
 <template>
   <div class="image">
     <div class="top">
-      <el-button type="primary" size="small" @click="imgAdd"
+      <el-button type="primary" size="small" @click="handleOpenDrawer"
         >新增图片分类</el-button
       >
-      <el-button type="warning" size="small">上传图片</el-button>
+      <el-button type="warning" size="small" @click="Pictures"
+        >上传图片</el-button
+      >
     </div>
     <div class="box">
       <div class="box-left">
@@ -19,7 +21,7 @@
             <span>{{ item.name }}</span>
             <div class="iconbox">
               <el-icon size="12px" color="#6bb4ff">
-                <Edit />
+                <Edit @click="handleEdit(item)" />
               </el-icon>
               <el-popconfirm
                 title="是否要删除该分类?"
@@ -87,7 +89,45 @@
       </div>
     </div>
   </div>
-  <Drawer :title="title"></Drawer>
+  <Drawer :title="title" ref="FormDrawerRef" @submit="handleSubmit">
+    <el-form
+      ref="ruleFormRef"
+      :model="ruleForm"
+      :rules="rules"
+      label-width="80px"
+      status-icon
+    >
+      <el-form-item label="分类名称" prop="name">
+        <el-input v-model="ruleForm.name" />
+      </el-form-item>
+      <el-form-item label="排序" prop="order">
+        <el-input-number v-model="ruleForm.order" :min="1" :max="100000" />
+      </el-form-item>
+    </el-form>
+  </Drawer>
+  <Drawer title="上传图片" size="30%" ref="FormPicturesRef">
+    <el-upload
+      class="upload-demo"
+      drag
+      action="/api/image/upload"
+      multiple
+      :headers="{ token: token }"
+      data
+      :on-change="handlePictures"
+    >
+      <el-icon class="el-icon--upload">
+        <upload-filled />
+      </el-icon>
+      <div class="el-upload__text">
+        Drop file here or <em>click to upload</em>
+      </div>
+      <template #tip>
+        <div class="el-upload__tip">
+          jpg/png files with a size less than 500kb
+        </div>
+      </template>
+    </el-upload>
+  </Drawer>
 </template>
 
 <script lang="ts" setup>
@@ -96,10 +136,16 @@ import {
   getImage,
   deleteImage,
   deleteAll,
-  getEditName
+  getEditName,
+  getAddImage,
+  getEditImage
 } from '@/http/api';
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import Drawer from '@/components/Drawer.vue';
+import { ElMessage, ElMessageBox } from 'element-plus';
+import { getToken } from '@/composables/auth';
+
+const token = getToken();
 
 let active = ref(168);
 
@@ -137,9 +183,11 @@ const del = (id: any) => {
   });
 };
 
-// 新增 分类
-const imgAdd = () => {
-  console.log('添加');
+// 切换
+const huan = (e: any) => {
+  console.log(e);
+  active.value = e;
+  image();
 };
 
 let imgPage = ref(1);
@@ -197,7 +245,99 @@ const editName = (e: any) => {
     });
 };
 
+// 抽屉数据
 const title = ref('新增');
+const FormDrawerRef = ref();
+const ruleFormRef = ref();
+const editId = ref();
+
+// 打开抽屉弹窗方法
+const handleOpenDrawer = () => {
+  editId.value = 0;
+  title.value = '新增';
+  ruleForm.name = '';
+  ruleForm.order = 50;
+  FormDrawerRef.value.open();
+};
+
+// 修改
+const handleEdit = (row: any) => {
+  console.log('row=>', row);
+  editId.value = row.id;
+  title.value = '修改';
+  ruleForm.name = row.name;
+  ruleForm.order = row.order;
+  FormDrawerRef.value.open();
+};
+
+// 关闭抽屉弹窗方法
+const handleCloseDrawer = () => {
+  FormDrawerRef.value.close();
+};
+
+// 表单数据
+const ruleForm = reactive({
+  name: '',
+  order: 50
+});
+// 校验规则
+const rules = reactive({
+  name: [{ required: true, message: '图库分类名称不能为空', trigger: 'blur' }]
+});
+// 提交数据
+const handleSubmit = () => {
+  ruleFormRef.value.validate(async (valid) => {
+    if (!valid) return;
+    try {
+      editId.value === 0 ? addImageCategoryData() : updateImageCategoryData();
+    } catch (error) {
+      console.log(error);
+    }
+  });
+};
+// 新增分类数据
+const addImageCategoryData = async () => {
+  try {
+    console.log('editId', editId.value);
+    FormDrawerRef.value.showLoading();
+    await getAddImage(ruleForm);
+    handleCloseDrawer();
+    getList();
+  } catch (error) {
+    console.log(error);
+  } finally {
+    FormDrawerRef.value.hideLoading();
+  }
+};
+// 编辑分类技术
+const updateImageCategoryData = async () => {
+  try {
+    FormDrawerRef.value.showLoading();
+    await getEditImage(editId.value, ruleForm);
+    handleCloseDrawer();
+    getList();
+  } catch (error) {
+    console.log(error);
+  } finally {
+    FormDrawerRef.value.hideLoading();
+  }
+};
+
+const FormPicturesRef = ref();
+const data = reactive({
+  name: '',
+  path: ''
+});
+// 上传图片
+const Pictures = () => {
+  FormPicturesRef.value.open();
+};
+
+const handlePictures = (e: any) => {
+  console.log(e);
+  data.name = e.name;
+  data.path = e.name;
+};
 </script>
 
 <style lang="scss">
@@ -256,6 +396,7 @@ const title = ref('新增');
       }
     }
     .box-right {
+      width: calc(100% - 220px);
       margin: 0 10px;
       position: relative;
       .el-col {

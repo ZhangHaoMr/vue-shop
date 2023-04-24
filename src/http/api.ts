@@ -60,3 +60,10 @@ export const deleteAll = (id: number) =>
 // 修改 图片 名称  image/
 export const getEditName = (data: any) =>
   instance.post(`image/${data.id}`, data);
+
+// 图库 分类添加
+export const getAddImage = (data: any) => instance.post('image_class', data);
+
+// 图库 分类 修改
+export const getEditImage = (id: number, data: any) =>
+  instance.post(`image_class/${id}`, data);
